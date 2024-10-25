@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Welcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="handleAuthentication()" [formGroup]="userAuthForm">
+    <ion-card>
+      <ion-card-content>
+        <!-- Email Input -->
+        <ion-item>
+          <ion-icon name="mail-outline" slot="start" color="medium"></ion-icon>
+          <ion-input
+            type="email"
+            label="Email"
+            labelPlacement="floating"
+            formControlName="email"
+            autocomplete="email"
+          ></ion-input>
+        </ion-item>
+        @if (userAuthForm.controls.email.dirty && userAuthForm.controls.email.errors) {
+          <ion-text color="danger" class="ion-padding-start">
+            <small>Please enter a valid email address</small>
+          </ion-text>
+        }
+
+        <!-- Password Input -->
+        <ion-item>
+          <ion-icon name="lock-closed-outline" slot="start" color="medium"></ion-icon>
+          <ion-input
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            label="Password"
+            labelPlacement="floating"
+            formControlName="password"
+            autocomplete="current-password"
+          ></ion-input>
+          <ion-button 
+            fill="clear"
+            slot="end"
+            (click)="isPasswordVisible = !isPasswordVisible"
+            aria-label="Toggle password visibility"
+          >
+            <ion-icon
+              slot="icon-only"
+              [name]="isPasswordVisible ? 'eye-off-outline' : 'eye-outline'"
+              color="medium"
+            ></ion-icon>
+          </ion-button>
+        </ion-item>
+        @if (userAuthForm.controls.password.dirty && userAuthForm.controls.password.errors) {
+          <ion-text color="danger" class="ion-padding-start">
+            <small>Password must be at least 6 characters</small>
+          </ion-text>
+        }
+      </ion-card-content>
+    </ion-card>
+
+    <div class="ion-padding-vertical">
+      <!-- Sign In Button -->
+      <ion-button 
+        type="submit" 
+        expand="block" 
+        [disabled]="userAuthForm.invalid"
+        class="ion-margin-bottom"
+      >
+        <ion-icon name="log-in-outline" slot="start"></ion-icon>
+        Sign In
+      </ion-button>
+
+      <!-- Register Button -->
+      <ion-button
+        type="button"
+        expand="block"
+        color="secondary"
+        [disabled]="userAuthForm.invalid"
+        (click)="handleRegistration()"
+        class="ion-margin-bottom"
+      >
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+        Create Account
+      </ion-button>
+
+      <!-- Password Reset Button -->
+      <ion-button
+        fill="clear"
+        expand="block"
+        color="medium"
+        (click)="handlePasswordReset()"
+        [disabled]="userAuthForm.controls.email.invalid"
+      >
+        Forgot Password?
+      </ion-button>
+    </div>
+  </form>
+</ion-content>
